@@ -1,16 +1,14 @@
 const { Engine, Render, Runner, World, Bodies } = Matter;
 
-// Portrait game size
+// Portrait
 const WIDTH = 450;
 const HEIGHT = 800;
 
-// Engine
 const engine = Engine.create();
 const world = engine.world;
 
 world.gravity.y = 0;
 
-// Renderer
 const render = Render.create({
   canvas: document.getElementById("game"),
   engine,
@@ -23,16 +21,17 @@ const render = Render.create({
 });
 
 Render.run(render);
+Runner.run(Runner.create(), engine);
 
-// Runner
-const runner = Runner.create();
-Runner.run(runner, engine);
-
-// Test bowl
-const bowl = Bodies.circle(WIDTH / 2, HEIGHT - 80, 20, {
-  render: {
-    fillStyle: "#e8d7a8",
-  },
+const bowl = Bodies.circle(WIDTH / 2, HEIGHT - 80, 18, {
+  restitution: 0.9,
+  frictionAir: 0.02,
+  render: { fillStyle: "#e8d7a8" },
 });
 
-World.add(world, bowl);
+const jack = Bodies.circle(WIDTH / 2, 120, 10, {
+  isStatic: true,
+  render: { fillStyle: "#ffffff" },
+});
+
+World.add(world, [bowl, jack]);
